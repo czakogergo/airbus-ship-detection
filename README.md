@@ -15,6 +15,11 @@ with the goal of identifying and segmenting ships in satellite images.
 **Focus:** Data source identification and download scripts.
 
 ## Data Source
-- Kaggle: **Airbus Ship Detection Challenge**
+- Kaggle: **Airbus Ship Detection Challenge**(https://www.kaggle.com/competitions/airbus-ship-detection)
   - Folders: `train_v2/`, `test_v2/`
   - Annotation file: `train_ship_segmentations_v2.csv`
+
+**Download scripts included in this repository:**
+| File | Description |
+|------|--------------|
+| `download_airbus_kaggle.ipynb` | Google Colab notebook – Kaggle API setup, dataset download, unzip, and verification |
