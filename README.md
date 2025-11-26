@@ -3,7 +3,7 @@
 | Team Member | Neptun Code |
 |--------------|-------------|
 | Gergő Czakó |VCXUNF |
-| Name 2 | DEF456 |
+| Sági Benedek | ECSGGY |
 | Name 3 | GHI789 |
 
 ## 📘 Project Overview
