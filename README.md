@@ -41,3 +41,9 @@ is implemented in the following notebook:
 | File | Description |
 |------|-------------|
 | `airbus_training_pipeline.ipynb` | Complete data preparation, training, and evaluation pipeline |
+
+### 🚧 Work in Progress
+The following parts of the project are still in progress:
+
+- **model improvement** (hyperparameter tuning, architecture adjustments, augmentations)  
+- **containerization** (Docker setup, reproducible environment)
