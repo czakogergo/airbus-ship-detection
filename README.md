@@ -45,12 +45,11 @@ is implemented in the following notebook:
 |------|-------------|
 | `airbus_training_pipeline.ipynb` | Complete data preparation, training, and evaluation pipeline |
 
-## 🐳 Docker Instructions
+### Build and Run (Docker)
 
-This project provides Docker support to ensure a reproducible execution
-environment for data preprocessing, model training, and evaluation.
-
-### Build and Run
+This project provides a GPU-enabled Docker image based on
+`tensorflow/tensorflow:2.15.0-gpu`. The container runs the full pipeline
+by executing `run.sh` on startup.
 
 The container executes:
 - data loading and preprocessing
@@ -60,7 +59,6 @@ The container executes:
 Before running the container, ensure that:
 - Docker and Docker Compose are installed
 - the Airbus Ship Detection dataset is downloaded locally
-- a log directory exists (`log/`)
 
 ---
 
@@ -68,28 +66,23 @@ Before running the container, ensure that:
 
 ```bash
 HOST_DATA_DIR=/absolute/path/to/your/local/data \
-docker compose up --build > log/run.log 2>&1
+docker compose up --build > run.log 2>&1
 ```
 
 #### Windows (PowerShell)
 
 ```powershell
 $env:HOST_DATA_DIR="C:/absolute/path/to/your/local/data"
-docker compose up --build > log/run.log 2>&1
+docker compose up --build > run.log 2>&1
 ```
 
 ---
 
 **Notes:**
-- Replace `/absolute/path/to/your/local/data` with the directory
-  containing `train_v2/`, `test_v2/`, and
-  `train_ship_segmentations_v2.csv`.
-- The `--build` flag ensures that the Docker image is rebuilt before
-  execution.
-- The output redirection (`> log/run.log 2>&1`) captures all logs
-  (stdout and stderr) into a single file for submission.
-- Training and evaluation are executed automatically when the
-  container starts.
+- Replace `HOST_DATA_DIR` with the folder that contains the Airbus dataset
+  (`train_v2/`, `test_v2/`, and `train_ship_segmentations_v2.csv`).
+- The dataset directory is mounted into the container at `/work/data`.
+- Logs are captured into `run.log` in the repository root using output redirection.
 
 ## 📁 File Structure
 
