@@ -1,3 +1,5 @@
+## Megajánlott jegyért
+
 ## 👥 Team Information
 # Team name: Overfitters United
 | Team Member | Neptun Code |
@@ -6,6 +8,7 @@
 | Sági Benedek | ECSGGY |
 
 The third member left us, so only the two of us worked on this project.
+
 
 ## 📘 Project Overview
 

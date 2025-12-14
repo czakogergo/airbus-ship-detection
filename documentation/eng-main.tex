@@ -141,8 +141,8 @@ objects with minimal user interaction.
 Based on the review of the SAM documentation and related publications,
 the model’s main strength lies in handling general visual
 representations. However, due to the specific characteristics of
-satellite imagery—such as the small size of ships, varying resolution,
-and low contrast—the effectiveness of the model for this particular
+satellite imagery-such as the small size of ships, varying resolution,
+and low contrast-the effectiveness of the model for this particular
 task may be limited. Furthermore, the computational complexity and
 resource requirements of the model were also considered significant.
 
@@ -183,7 +183,7 @@ approach enables not only the detection of ship presence but also their
 precise localization.
 
 The core component of the system is a convolutional neural network
-following an encoder–decoder architecture. The encoder extracts
+following an encoder-decoder architecture. The encoder extracts
 hierarchical feature representations from the input images, learning
 increasingly abstract features. The decoder reconstructs the
 segmentation mask from these representations at the original image
@@ -263,22 +263,78 @@ could lead to faster convergence and improved generalization.
 Additionally, the proposed approach could be extended to other remote
 sensing tasks, such as the detection of aircraft or buildings.
 
+\section*{Declaration on the Use of AI Tools}
+
+The authors declare that generative artificial intelligence tools,
+including ChatGPT, were used during the preparation of this report.
+These tools were utilized primarily to support language refinement,
+technical clarification, and the discussion of methodological choices,
+including the selection of loss functions and evaluation strategies.
+
+The conceptual design of the solution, the implementation of the neural
+network model, the execution of experiments, and the interpretation of
+results were carried out independently by the authors. All content
+generated with the assistance of AI tools was critically reviewed,
+verified, and adapted to ensure technical correctness and compliance
+with the requirements of the assignment.
+
 
 \section*{References}
 \small
 
-[1] Alexander, J.A.\ \& Mozer, M.C.\ (1995) Template-based algorithms
-for connectionist rule extraction. In G.\ Tesauro, D.S.\ Touretzky and
-T.K.\ Leen (eds.), {\it Advances in Neural Information Processing
-  Systems 7}, pp.\ 609--616. Cambridge, MA: MIT Press.
+[1] O. Ronneberger, P. Fischer, T. Brox.
+U-Net: Convolutional Networks for Biomedical Image Segmentation.
+\textit{Medical Image Computing and Computer-Assisted Intervention (MICCAI)},
+2015.
 
-[2] Bower, J.M.\ \& Beeman, D.\ (1995) {\it The Book of GENESIS:
-  Exploring Realistic Neural Models with the GEneral NEural SImulation
-  System.}  New York: TELOS/Springer--Verlag.
+[2] J. Long, E. Shelhamer, T. Darrell.
+Fully Convolutional Networks for Semantic Segmentation.
+\textit{Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+2015.
 
-[3] Hasselmo, M.E., Schnell, E.\ \& Barkai, E.\ (1995) Dynamics of
-learning and recall at excitatory recurrent synapses and cholinergic
-modulation in rat hippocampal region CA3. {\it Journal of
-  Neuroscience} {\bf 15}(7):5249-5262.
+[3] K. He, X. Zhang, S. Ren, J. Sun.
+Deep Residual Learning for Image Recognition.
+\textit{Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+2016.
 
+[4] F. Chollet.
+Xception: Deep Learning with Depthwise Separable Convolutions.
+\textit{Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+2017.
+
+[5] T.-Y. Lin, P. Goyal, R. Girshick, K. He, P. Dollár.
+Focal Loss for Dense Object Detection.
+\textit{Proceedings of the IEEE International Conference on Computer Vision (ICCV)},
+2017.
+
+[6] V. Iglovikov, A. Shvets.
+TernausNet: U-Net with VGG11 Encoder Pre-Trained on ImageNet.
+\textit{arXiv preprint arXiv:1801.05746}, 2018.
+
+[7] L.-C. Chen, G. Papandreou, I. Kokkinos, K. Murphy, A. L. Yuille.
+DeepLab: Semantic Image Segmentation with Deep Convolutional Nets,
+Atrous Convolution, and Fully Connected CRFs.
+\textit{IEEE Transactions on Pattern Analysis and Machine Intelligence},
+2018.
+
+[8] M. Berman, A. Rannen Triki, M. B. Blaschko.
+The Lovász-Softmax Loss: A Tractable Surrogate for the Optimization of the
+Intersection-over-Union Measure in Neural Networks.
+\textit{Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+2018.
+
+[9] G. Cheng, J. Han.
+A Survey on Object Detection in Optical Remote Sensing Images.
+\textit{ISPRS Journal of Photogrammetry and Remote Sensing},
+2016.
+
+
+[10] S. Li, Z. Zhou, B. Wang.
+Ship Detection in Optical Remote Sensing Images Based on Deep Learning.
+\textit{IEEE Geoscience and Remote Sensing Letters},
+2017.
+
+[11] A. Kirillov et al.
+Segment Anything.
+\textit{arXiv preprint arXiv:2304.02643}, 2023.
 \end{document}
