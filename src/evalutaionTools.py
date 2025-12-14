@@ -1,5 +1,7 @@
 import numpy as np
+import tensorflow as tf
 import cv2
+from metricsTools import image_f2_score 
 
 def iou(mask1, mask2):
     mask1 = mask1.astype(bool)
@@ -13,7 +15,19 @@ def iou(mask1, mask2):
 
 
 def extract_objects(binary_mask):
+    binary_mask = tf.cast(binary_mask, tf.uint8)
+    binary_mask = binary_mask.numpy()
+    if tf.is_tensor(binary_mask):
+        binary_mask = binary_mask.numpy()
+
+    # 2. Float → bináris
+    binary_mask = (binary_mask > 0.5)
+
+    # 3. uint8
     binary_mask = binary_mask.astype(np.uint8)
+
+    # 4. Batch és channel eltávolítás
+    binary_mask = np.squeeze(binary_mask)
     num_labels, labels = cv2.connectedComponents(binary_mask)
 
     objects = []
@@ -79,29 +93,19 @@ def f2_score_per_image(gt_mask, pred_mask):
     return float(np.mean(f2_scores))
 
 
-def evaluate_dataset_competition_f2(model, test_gen, pred_threshold=0.5):
+def evaluate_dataset_competition_f2(model, test_dataset, pred_threshold=0.5):
     all_scores = []
-
-    for batch_idx in range(len(test_gen)):
-        X, y = test_gen[batch_idx]            # X: képek, y: GT maszkok
-        preds = model.predict(X, verbose=0)   # valószínűségi maszkok
-
-        # Binarizálás
-        preds_bin = (preds > pred_threshold).astype(np.uint8)
-
-        batch_size = X.shape[0]
-
+    for test_data in test_dataset:
+        X, y = test_data            # X: képek, y: GT maszkok
+        batch_size = len(test_data)
         for i in range(batch_size):
-            gt = y[i]
-            pr = preds_bin[i]
-
-            # ha (H, W, 1) alakú, lapítsuk 2D-re
-            if gt.ndim == 3:
-                gt = gt[..., 0]
-            if pr.ndim == 3:
-                pr = pr[..., 0]
-
-            score = f2_score_per_image(gt > 0.5, pr)  # GT-t is binárissá tesszük
+            preds = model.predict(X[i].numpy()[np.newaxis, ...], verbose=0)   # valószínűségi maszkok
+        # Binarizálás
+            preds_bin = (preds > pred_threshold).astype(np.uint8)
+            
+            score = f2_score_per_image(y[i] > 0.5, preds_bin)  # GT-t is binárissá tesszük
             all_scores.append(score)
 
     return float(np.mean(all_scores))
+
+
