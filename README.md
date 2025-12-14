@@ -45,8 +45,91 @@ is implemented in the following notebook:
 |------|-------------|
 | `airbus_training_pipeline.ipynb` | Complete data preparation, training, and evaluation pipeline |
 
-### 🚧 Work in Progress
-The following parts of the project are still in progress:
+## 🐳 Docker Instructions
 
-- **model improvement** (hyperparameter tuning, architecture adjustments, augmentations)  
-- **containerization** (Docker setup, reproducible environment)
+This project provides Docker support to ensure a reproducible execution
+environment for data preprocessing, model training, and evaluation.
+
+### Build and Run
+
+The container executes:
+- data loading and preprocessing
+- model training
+- validation and evaluation
+
+Before running the container, ensure that:
+- Docker and Docker Compose are installed
+- the Airbus Ship Detection dataset is downloaded locally
+- a log directory exists (`log/`)
+
+---
+
+#### Linux / macOS
+
+```bash
+HOST_DATA_DIR=/absolute/path/to/your/local/data \
+docker compose up --build > log/run.log 2>&1
+```
+
+#### Windows (PowerShell)
+
+```powershell
+$env:HOST_DATA_DIR="C:/absolute/path/to/your/local/data"
+docker compose up --build > log/run.log 2>&1
+```
+
+---
+
+**Notes:**
+- Replace `/absolute/path/to/your/local/data` with the directory
+  containing `train_v2/`, `test_v2/`, and
+  `train_ship_segmentations_v2.csv`.
+- The `--build` flag ensures that the Docker image is rebuilt before
+  execution.
+- The output redirection (`> log/run.log 2>&1`) captures all logs
+  (stdout and stderr) into a single file for submission.
+- Training and evaluation are executed automatically when the
+  container starts.
+
+## 📁 File Structure
+
+The repository is organized as follows:
+
+```
+.
+├── notebook/
+│   ├── download_airbus_kaggle.ipynb
+│   └── airbus_training_pipeline.ipynb
+├── src/
+│   └── helper modules and reusable components
+├── documentation/
+│   └── report and assignment-related files
+├── log/
+│   └── run.log
+├── Dockerfile
+├── docker-compose.yaml
+├── requirements.txt
+├── run.sh
+└── README.md
+```
+
+### Key Components
+
+- **`notebook/`**
+  - `download_airbus_kaggle.ipynb`: Dataset download and verification
+  - `airbus_training_pipeline.ipynb`: Complete data preparation,
+    training, and evaluation workflow
+
+- **`src/`**
+  - Helper modules used by the notebooks (data loading utilities,
+    model helpers, etc.)
+
+- **`log/`**
+  - Contains runtime logs generated during Docker execution
+
+- **Root directory**
+  - `Dockerfile`: Defines the AI training environment
+  - `docker-compose.yaml`: Defines the `ai` service (GPU-enabled if
+    available)
+  - `requirements.txt`: Python dependencies
+  - `run.sh`: Optional helper script for running Docker locally
