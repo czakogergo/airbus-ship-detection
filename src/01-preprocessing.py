@@ -11,7 +11,15 @@ import config
 logger = setup_logger()
 
 def rle_decode(rle, shape=(768, 768)):
-    """Masz képet generál az adott maszk adat alapján"""
+    """Decode a run-length encoded (RLE) mask into a 2D binary array.
+
+    Args:
+        rle (str): Run-length encoding string (space-separated starts and lengths).
+        shape (tuple): Desired output mask shape as (height, width).
+
+    Returns:
+        np.ndarray: 2D array of dtype uint8 with values 0 or 1 representing the mask.
+    """
     img = np.zeros(shape[0]*shape[1], dtype=np.uint8)
     s = list(map(int, rle.split()))
     starts, lengths = s[0::2], s[1::2]
@@ -23,8 +31,19 @@ def rle_decode(rle, shape=(768, 768)):
 
 
 def preprocess_image_mask(image_path, mask_rles):
-    """
-    Betöltés, normalizálás és átméretezés
+    """Load and preprocess an image and its associated masks.
+
+    This function reads an image from disk, decodes and normalizes it,
+    resizes it to the model input size, decodes any RLE masks, combines
+    them into a single binary mask and resizes the mask to the model size.
+
+    Args:
+        image_path (str): Path to the image file.
+        mask_rles (iterable): Iterable of RLE strings for the image masks.
+
+    Returns:
+        tuple: (image_tensor, mask_tensor) where image is float32 normalized
+               and mask is a single-channel binary mask.
     """
     # Image
     img = tf.io.read_file(image_path)
@@ -44,8 +63,18 @@ def preprocess_image_mask(image_path, mask_rles):
 
 
 def create_dataset(image_dir, mask_csv):
-    """
-    Generál egy Tensorflow.Dataset típusú adatot az adott képekkel, és hozzájuk tartozó maszképekkel
+    """Create a TensorFlow Dataset from image files and an RLE mask CSV.
+
+    Reads mask encodings from `mask_csv` and pairs them with images found
+    in `image_dir`. Produces a dataset of (image, mask, count) tuples where
+    `count` is the number of encoded masks for that image.
+
+    Args:
+        image_dir (str): Directory containing image files.
+        mask_csv (str): CSV file path with columns ['ImageId', 'EncodedPixels'].
+
+    Returns:
+        tf.data.Dataset: Dataset yielding (image, mask, count) for each image.
     """
     mask_df = pd.read_csv(mask_csv)
     grouped = mask_df.groupby("ImageId")
@@ -73,8 +102,18 @@ def create_dataset(image_dir, mask_csv):
     return dataset
 
 def train_valid_test_datasetCreating(dataset):
-    """
-    Felosztja a tanító, validáló, és teszthalmazra.
+    """Split a dataset into training, validation and test sets and balance positives.
+
+    Splits the provided dataset into train/validation/test with an 80/20 split
+    and then balances the training split so that the number of images
+    without masks equals the number of images with masks.
+
+    Args:
+        dataset (tf.data.Dataset): Dataset yielding (image, mask, count) tuples.
+
+    Returns:
+        tuple: (train_dataset, val_dataset, test_dataset) where each yields
+               (image, mask) pairs.
     """
     train_dataset, test_dataset = tf.keras.utils.split_dataset(dataset,left_size=0.8, shuffle=True)
     train_dataset, val_dataset = tf.keras.utils.split_dataset(train_dataset,left_size=0.8, shuffle=True)
@@ -99,6 +138,11 @@ def train_valid_test_datasetCreating(dataset):
 
 
 def preprocess():
+    """Main preprocessing entrypoint: builds datasets and saves them to disk.
+
+    Reads images and masks, splits into train/val/test and saves the
+    resulting datasets to `config.IMAGES_MASK_DIR`.
+    """
     logger.info("Preprocessing data...")
     dataset = create_dataset(image_dir = (config.DATA_DIR + "/train_v2"), mask_csv = (config.DATA_DIR +"/" + config.MASKS_FILENAME))
     train_dataset, val_dataset, test_dataset =  train_valid_test_datasetCreating(dataset)

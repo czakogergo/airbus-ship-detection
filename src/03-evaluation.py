@@ -10,6 +10,11 @@ from metricsTools import bce_dice_loss, dice_coef, iou_score, f2_score_pixel
 logger = setup_logger()
 
 def evaluate():
+    """Load the trained model and evaluate it on the test dataset.
+
+    Loads model with necessary custom objects, runs predictions on the test
+    dataset and computes the competition-style mean F2 score.
+    """
     logger.info("Evaluating model...")
     custom_objects = {
     "bce_dice_loss": bce_dice_loss,

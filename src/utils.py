@@ -17,4 +17,9 @@ def setup_logger(name=__name__):
     return logger
 
 def load_config():
+    """Load project configuration.
+
+    Placeholder for a configuration loader. Implementations should return
+    a configuration dict or object with project settings.
+    """
     pass
