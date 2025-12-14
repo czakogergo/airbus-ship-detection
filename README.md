@@ -107,18 +107,21 @@ The repository is organized as follows:
 ### Key Components
 
 - **`notebook/`**
-  - `download_airbus_kaggle.ipynb`: Dataset download and verification
-  - `airbus_training_pipeline.ipynb`: Complete data preparation,
-    training, and evaluation workflow
+  - `download_airbus_kaggle.ipynb`: Notebook for downloading and verifying
+    the Airbus Ship Detection dataset using the Kaggle API
+  - `airbus_training_pipeline.ipynb`: End-to-end pipeline for data
+    preparation, model training, evaluation, and visualization
 
 - **`src/`**
-  - Helper modules used by the notebooks (data loading utilities,
-    model helpers, etc.)
-
+  - Helper modules and reusable components used by the training pipeline
+    (e.g. data loading utilities, model-related functions)
 
 - **Root directory**
-  - `Dockerfile`: Defines the AI training environment
-  - `docker-compose.yaml`: Defines the `ai` service (GPU-enabled if
-    available)
-  - `requirements.txt`: Python dependencies
-  - `run.sh`: Optional helper script for running Docker locally
+  - `Dockerfile`: Defines the GPU-enabled training environment and
+    installs all required dependencies
+  - `docker-compose.yaml`: Defines the `segmentai` service with NVIDIA
+    GPU support
+  - `requirements.txt`: Python dependencies required for training and
+    evaluation
+  - `run.sh`: Entry-point script executed when the Docker container
+    starts, responsible for launching the training pipeline
