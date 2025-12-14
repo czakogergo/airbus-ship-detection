@@ -4,7 +4,8 @@
 |--------------|-------------|
 | Gergő Czakó |VCXUNF |
 | Sági Benedek | ECSGGY |
-| Name 3 | GHI789 |
+
+The third member left us, so only the two of us worked on this project.
 
 ## 📘 Project Overview
 
@@ -23,3 +24,26 @@ with the goal of identifying and segmenting ships in satellite images.
 | File | Description |
 |------|--------------|
 | `download_airbus_kaggle.ipynb` | Google Colab notebook – Kaggle API setup, dataset download, unzip, and verification |
+
+## 🧠 Training, Data Loading & Evaluation
+
+The full workflow for the project — including:
+
+- custom Keras `Sequence` generator for data loading  
+- balanced train/validation split  
+- UNet model building  
+- training setup with callbacks (checkpointing, LR scheduling, early stopping)  
+- evaluation metrics (IoU, Dice, F2 pixel score)  
+- visualization of masks and predictions  
+
+is implemented in the following notebook:
+
+| File | Description |
+|------|-------------|
+| `airbus_training_pipeline.ipynb` | Complete data preparation, training, and evaluation pipeline |
+
+### 🚧 Work in Progress
+The following parts of the project are still in progress:
+
+- **model improvement** (hyperparameter tuning, architecture adjustments, augmentations)  
+- **containerization** (Docker setup, reproducible environment)
