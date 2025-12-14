@@ -1,0 +1,284 @@
+\documentclass{article}
+
+% if you need to pass options to natbib, use, e.g.:
+% \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading nips_2016
+%
+% to avoid loading the natbib package, add option nonatbib:
+% \usepackage[nonatbib]{nips_2016}
+
+% \usepackage{nips_2016}
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+\usepackage[final]{nips_2016}
+
+
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+
+\title{
+Ship Detection in Satellite Images Using Deep Learning\\
+\large Hajók detektálása műholdképeken mélytanulás segítségével
+}
+
+
+
+% The \author macro works with any number of authors. There are two
+% commands used to separate the names and addresses of multiple
+% authors: \And and \AND.
+%
+% Using \And between authors leaves it to LaTeX to determine where to
+% break the lines. Using \AND forces a line break at that point. So,
+% if LaTeX puts 3 of 4 authors names on the first line, and the last
+% on the second line, try using \AND instead of \And before the third
+% author name.
+
+\author{
+Sági Benedek \\
+Budapest Műszaki és Gazdaságtudományi Egyetem \\
+\texttt{benedek.sagi@edu.bme.hu}
+\And
+Czakó Gergő \\
+Budapest Műszaki és Gazdaságtudományi Egyetem \\
+\texttt{gergo.czako@edu.bme.hu}
+}
+
+\begin{document}
+% \nipsfinalcopy is no longer used
+
+\maketitle
+
+\begin{abstract}
+\textbf{Abstract}
+The automatic analysis of satellite imagery plays a crucial role in maritime traffic monitoring, environmental protection, and security applications. This paper addresses the task defined in the Airbus Ship Detection Challenge, which aims to detect ships in high-resolution satellite images. The proposed approach employs a convolutional neural network-based segmentation model to identify ship locations using binary pixel-level masks. The model is trained in a supervised manner on annotated satellite images, where ship masks are provided in run-length encoded format. During training, separate training and validation sets are used to monitor generalization performance and prevent overfitting. The model is evaluated on training, validation, and test datasets using segmentation-specific metrics and loss functions. Experimental results demonstrate that the deep learning-based segmentation approach is effective for ship detection in complex and noisy visual environments, making it a suitable solution for maritime remote sensing applications.
+
+\vspace{0.7em}
+\textbf{Magyar kivonat}
+A műholdfelvételek automatikus elemzése kulcsfontosságú szerepet tölt
+be a tengeri forgalom megfigyelésében, a környezetvédelemben és a
+biztonsági alkalmazásokban. A dolgozat az Airbus Ship Detection
+Challenge keretében meghatározott feladatot vizsgálja, amelynek célja
+hajók detektálása nagy felbontású műholdképeken. A bemutatott módszer
+egy konvolúciós neurális hálózaton alapuló szegmentációs modellt
+alkalmaz, amely bináris, pixel-szintű maszkok segítségével határozza
+meg a hajók elhelyezkedését a képeken. A modellt felügyelt tanulási módszerrel, annotált műholdképeken
+tanítottuk, ahol a hajókhoz tartozó maszkok futamhossz-kódolt
+formátumban álltak rendelkezésre. A tanítás során külön tanító és
+validációs adathalmazt használtunk az általánosítási képesség nyomon
+követésére és a túltanulás elkerülésére. A modell teljesítményét
+tanítási, validációs és teszt adathalmazokon értékeltük, szegmentációs
+feladatokra jellemző mérőszámok és veszteségfüggvények alkalmazásával. A kísérleti eredmények azt mutatják, hogy a mélytanulás-alapú
+szegmentációs megközelítés hatékonyan alkalmazható a hajók
+detektálására összetett és zajos vizuális környezetben, így alkalmas
+megoldást jelent a tengeri távérzékelési alkalmazások számára.
+\end{abstract}
+
+
+
+\section{Introduction}
+Satellite remote sensing plays a crucial role in the continuous
+observation of the Earth’s surface. High-resolution satellite imagery
+enables the analysis of maritime traffic, the monitoring of shipping
+routes, and the detection of illegal activities, such as unauthorized
+fishing. These applications require accurate and reliable automatic
+ship detection, which represents a significant challenge due to
+highly variable environmental conditions.
+
+The appearance of ships in satellite images is highly heterogeneous:
+their size, shape, orientation, and contrast can vary considerably,
+while the background often contains noisy water surfaces or coastal
+structures. Traditional image processing methods generally lack
+robustness in such complex visual environments, which has led to the
+increasing adoption of deep learning-based approaches in recent years.
+
+This paper addresses the task defined in the Airbus Ship Detection
+Challenge, which focuses on pixel-level ship segmentation in satellite
+images. Several possible approaches were considered during the design
+phase, including general-purpose pre-trained models and task-specific
+neural networks. The final solution is based on a convolutional neural
+network-based segmentation model specifically adapted to the
+characteristics of the given dataset.
+
+Traditional image processing techniques show limited effectiveness in
+such complex scenarios; therefore, deep learning-based methods have
+become increasingly prominent. The goal of this work is to present and
+analyze a convolutional neural network-based model applied to the
+Airbus Ship Detection Challenge dataset, capable of accurately
+localizing ships in satellite images.
+
+
+\section{Related Work and Background}
+
+\subsection{Ship Detection in Satellite Images}
+Automatic ship detection in satellite imagery is an actively researched
+topic at the intersection of computer vision and remote sensing. A key
+challenge of this task is that images often cover large geographic
+areas, while the objects of interest are relatively small and exhibit
+low contrast. Additionally, the background can vary significantly,
+which further complicates reliable detection.
+
+Early approaches typically relied on handcrafted features and
+classical image processing techniques; however, their performance was
+limited in complex visual environments. With the advent of deep
+learning, convolutional neural networks have become the dominant
+approach, as they are capable of automatically extracting relevant
+visual features from data.
+
+\subsection{General-Purpose Segmentation Models}
+During the initial phase of the project, the applicability of
+general-purpose, pre-trained segmentation models was examined. Special
+attention was given to the Segment Anything Model (SAM), which is
+trained on large-scale datasets and is capable of segmenting various
+objects with minimal user interaction.
+
+Based on the review of the SAM documentation and related publications,
+the model’s main strength lies in handling general visual
+representations. However, due to the specific characteristics of
+satellite imagery—such as the small size of ships, varying resolution,
+and low contrast—the effectiveness of the model for this particular
+task may be limited. Furthermore, the computational complexity and
+resource requirements of the model were also considered significant.
+
+Taking these factors into account, a task-specific neural network
+trained from scratch was selected instead, as it better aligns with
+the characteristics of the Airbus Ship Detection Challenge dataset.
+
+\subsection{Kaggle Community Solutions}
+During the design of the model, publicly available solutions and code
+examples on the Kaggle platform were also analyzed. These community
+solutions provided valuable insights into common challenges of the
+dataset, as well as frequently used architectures and training
+strategies.
+
+Many successful approaches employed U-Net-based segmentation
+architectures combined with different encoder structures and
+specialized loss functions. Handling class imbalance was a common
+strategy, as images without ships are present in significantly larger
+numbers within the dataset.
+
+The analysis of community solutions served as inspiration rather than
+direct implementation. The final model was developed independently,
+using the acquired insights to guide architectural and training
+decisions.
+
+
+\section{System Design}
+The implemented system represents an end-to-end trainable deep
+learning-based processing pipeline that produces ship segmentation
+masks directly from raw satellite images. The primary goal of the
+system is to minimize manual intervention while automatically learning
+the visual features required to distinguish ships from the background.
+
+The input consists of RGB satellite images captured under varying
+geographical and environmental conditions. The output is a binary
+segmentation mask indicating ship pixels at the pixel level. This
+approach enables not only the detection of ship presence but also their
+precise localization.
+
+The core component of the system is a convolutional neural network
+following an encoder–decoder architecture. The encoder extracts
+hierarchical feature representations from the input images, learning
+increasingly abstract features. The decoder reconstructs the
+segmentation mask from these representations at the original image
+resolution.
+
+Skip connections play a crucial role in preserving fine-grained
+details by allowing low-level features from the encoder to be directly
+propagated to corresponding decoder layers, thereby improving
+segmentation accuracy, particularly for small objects.
+
+
+\section{Implementation}
+\subsection{Data Acquisition and Preprocessing}
+The experiments were conducted using the publicly available Airbus
+Ship Detection Challenge dataset hosted on Kaggle. The dataset consists
+of high-resolution RGB satellite images along with corresponding ship
+annotations. The annotations are provided in run-length encoded (RLE)
+format, which compactly represents binary segmentation masks.
+
+As a first preprocessing step, the RLE annotations were converted into
+pixel-level binary masks. The input images were then normalized to
+ensure consistent pixel value ranges, contributing to a more stable
+training process. Additionally, the significant class imbalance caused
+by the large number of images without ships was taken into account
+during data preparation.
+
+
+\subsection{Training}
+The network was trained using supervised learning, where binary
+segmentation masks served as target labels for the corresponding input
+images. A loss function suitable for segmentation tasks was employed,
+with the ability to handle the imbalance between ship and background
+pixels.
+
+Optimization was performed using an iterative gradient-based method,
+where network parameters were updated to minimize the loss function.
+The dataset was split into training and validation subsets, enabling
+continuous monitoring of the model’s generalization behavior during
+training.
+
+Based on validation performance, training duration was adjusted to
+mitigate overfitting. This approach contributed to the development of
+a more stable and reliable model.
+
+
+\subsection{Evaluation}
+Model performance was assessed using training and validation subsets.
+The primary goal of evaluation was to monitor the training process and
+analyze model behavior, with particular focus on the evolution of the
+loss function during training.
+
+Analysis of training and validation loss values indicated a gradual
+reduction in training error, while validation loss remained relatively
+stable. This suggests that the model was able to learn meaningful
+visual features without relying solely on memorization of training
+data.
+
+Qualitative evaluation was performed by visually inspecting the
+segmentation masks generated for validation images. The results showed
+that the model was able to identify ship outlines in many cases,
+although inaccuracies occurred, particularly for small, low-contrast
+objects or images containing land areas. Overall, the evaluation
+demonstrates that the chosen architecture is suitable for addressing
+the core aspects of the task, while still leaving room for further
+improvements.
+
+
+\section{Future Work and Conclusion}
+The presented results demonstrate that convolutional neural
+network-based segmentation is an effective approach for automatic ship
+detection in satellite imagery. Future work may include the application
+of more complex architectures and the incorporation of more extensive
+data augmentation techniques.
+
+Another promising direction is the use of pre-trained networks, which
+could lead to faster convergence and improved generalization.
+Additionally, the proposed approach could be extended to other remote
+sensing tasks, such as the detection of aircraft or buildings.
+
+
+\section*{References}
+\small
+
+[1] Alexander, J.A.\ \& Mozer, M.C.\ (1995) Template-based algorithms
+for connectionist rule extraction. In G.\ Tesauro, D.S.\ Touretzky and
+T.K.\ Leen (eds.), {\it Advances in Neural Information Processing
+  Systems 7}, pp.\ 609--616. Cambridge, MA: MIT Press.
+
+[2] Bower, J.M.\ \& Beeman, D.\ (1995) {\it The Book of GENESIS:
+  Exploring Realistic Neural Models with the GEneral NEural SImulation
+  System.}  New York: TELOS/Springer--Verlag.
+
+[3] Hasselmo, M.E., Schnell, E.\ \& Barkai, E.\ (1995) Dynamics of
+learning and recall at excitatory recurrent synapses and cholinergic
+modulation in rat hippocampal region CA3. {\it Journal of
+  Neuroscience} {\bf 15}(7):5249-5262.
+
+\end{document}

@@ -1,0 +1,292 @@
+\documentclass{article}
+
+% if you need to pass options to natbib, use, e.g.:
+% \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading nips_2016
+%
+% to avoid loading the natbib package, add option nonatbib:
+% \usepackage[nonatbib]{nips_2016}
+
+% \usepackage{nips_2016}
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+\usepackage[final]{nips_2016}
+\makeatletter
+\let\@conferenceinfo\@empty
+\makeatother
+
+
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+
+\title{
+Ship Detection in Satellite Images Using Deep Learning\\
+\large Hajók detektálása műholdképeken mélytanulás segítségével
+}
+
+
+
+% The \author macro works with any number of authors. There are two
+% commands used to separate the names and addresses of multiple
+% authors: \And and \AND.
+%
+% Using \And between authors leaves it to LaTeX to determine where to
+% break the lines. Using \AND forces a line break at that point. So,
+% if LaTeX puts 3 of 4 authors names on the first line, and the last
+% on the second line, try using \AND instead of \And before the third
+% author name.
+
+\author{
+Sági Benedek \\
+Budapest Műszaki és Gazdaságtudományi Egyetem \\
+\texttt{benedek.sagi@edu.bme.hu}
+\And
+Czakó Gergő \\
+Budapest Műszaki és Gazdaságtudományi Egyetem \\
+\texttt{gergo.czako@edu.bme.hu}
+}
+
+\begin{document}
+% \nipsfinalcopy is no longer used
+
+\maketitle
+
+\begin{abstract}
+\textbf{Abstract}
+The automatic analysis of satellite imagery plays a crucial role in maritime traffic monitoring, environmental protection, and security applications. This paper addresses the task defined in the Airbus Ship Detection Challenge, which aims to detect ships in high-resolution satellite images. The proposed approach employs a convolutional neural network-based segmentation model to identify ship locations using binary pixel-level masks. The model is trained in a supervised manner on annotated satellite images, where ship masks are provided in run-length encoded format. During training, separate training and validation sets are used to monitor generalization performance and prevent overfitting. The model is evaluated on training, validation, and test datasets using segmentation-specific metrics and loss functions. Experimental results demonstrate that the deep learning-based segmentation approach is effective for ship detection in complex and noisy visual environments, making it a suitable solution for maritime remote sensing applications.
+
+\vspace{0.7em}
+\textbf{Magyar kivonat}
+A műholdfelvételek automatikus elemzése kulcsfontosságú szerepet tölt
+be a tengeri forgalom megfigyelésében, a környezetvédelemben és a
+biztonsági alkalmazásokban. A dolgozat az Airbus Ship Detection
+Challenge keretében meghatározott feladatot vizsgálja, amelynek célja
+hajók detektálása nagy felbontású műholdképeken. A bemutatott módszer
+egy konvolúciós neurális hálózaton alapuló szegmentációs modellt
+alkalmaz, amely bináris, pixel-szintű maszkok segítségével határozza
+meg a hajók elhelyezkedését a képeken. A modellt felügyelt tanulási módszerrel, annotált műholdképeken
+tanítottuk, ahol a hajókhoz tartozó maszkok futamhossz-kódolt
+formátumban álltak rendelkezésre. A tanítás során külön tanító és
+validációs adathalmazt használtunk az általánosítási képesség nyomon
+követésére és a túltanulás elkerülésére. A modell teljesítményét
+tanítási, validációs és teszt adathalmazokon értékeltük, szegmentációs
+feladatokra jellemző mérőszámok és veszteségfüggvények alkalmazásával. A kísérleti eredmények azt mutatják, hogy a mélytanulás-alapú
+szegmentációs megközelítés hatékonyan alkalmazható a hajók
+detektálására összetett és zajos vizuális környezetben, így alkalmas
+megoldást jelent a tengeri távérzékelési alkalmazások számára.
+\end{abstract}
+
+
+
+\section{Bevezető}
+A műholdas távérzékelés napjainkban kulcsszerepet játszik a Föld
+felszínének folyamatos megfigyelésében. A nagy felbontású műholdképek
+lehetővé teszik a tengeri forgalom elemzését, a hajózási útvonalak
+monitorozását, valamint az illegális tevékenységek – például az
+engedély nélküli halászat – felderítését. Ezek az alkalmazások
+megkövetelik a hajók pontos és megbízható automatikus detektálását,
+amely jelentős kihívást jelent a változatos környezeti feltételek
+miatt.
+
+A hajók megjelenése a műholdképeken rendkívül heterogén: méretük,
+alakjuk, orientációjuk és kontrasztjuk jelentősen eltérhet, továbbá a
+háttér gyakran zajos, hullámzó vízfelszínt vagy part menti struktúrákat
+tartalmaz. A hagyományos képfeldolgozási módszerek jellemzően nem
+bizonyulnak elég robusztusnak ilyen komplex vizuális környezetben,
+ezért az utóbbi években a mélytanulás-alapú megközelítések kerültek
+előtérbe.
+
+Jelen dolgozat az Airbus Ship Detection Challenge keretében megadott
+feladatot dolgozza fel, amely hajók pixel-szintű szegmentációját tűzi
+ki célul műholdképeken. A munka során különböző lehetséges megoldásokat
+vizsgáltunk meg, beleértve általános célú, előre tanított modelleket és
+feladatspecifikus, saját fejlesztésű neurális hálózatokat. A végső
+megoldás egy konvolúciós neurális hálózaton alapuló szegmentációs modell,
+amelyet kifejezetten az adott adathalmaz sajátosságaihoz igazítottunk.
+
+
+A hagyományos képfeldolgozási módszerek korlátozott hatékonyságot
+mutatnak ilyen komplex környezetben, ezért az utóbbi években egyre
+nagyobb hangsúlyt kapnak a mélytanulás-alapú megközelítések.
+Jelen dolgozat célja egy konvolúciós neurális hálózaton alapuló modell
+bemutatása és értékelése az Airbus Ship Detection Challenge adathalmazán,
+amely alkalmas hajók pontos lokalizálására műholdképeken.
+
+\section{Tématerület ismertetése és korábbi megoldások}
+
+\subsection{Hajódetektálás műholdképeken}
+A hajók automatikus detektálása műholdképeken a számítógépes látás és a
+távérzékelés egyik aktívan kutatott területe. A feladat sajátossága,
+hogy a képek nagy területet fednek le, miközben a detektálandó objektumok
+gyakran kis méretűek és alacsony kontrasztúak. Emellett a háttér erősen
+változó lehet, amely tovább nehezíti a megbízható felismerést.
+
+A korai megoldások jellemzően kézzel tervezett jellemzőkön és klasszikus
+képfeldolgozási eljárásokon alapultak, azonban ezek teljesítménye
+korlátozott volt komplex vizuális környezetben. A mélytanulás
+megjelenésével a konvolúciós neurális hálózatok váltak a domináns
+megközelítéssé, amelyek képesek a releváns vizuális mintázatok
+automatikus kinyerésére.
+
+\subsection{Általános célú szegmentációs modellek}
+A projekt kezdeti szakaszában megvizsgáltuk az általános célú,
+előre tanított szegmentációs modellek alkalmazhatóságát. Külön figyelmet
+fordítottunk a Segment Anything Model (SAM) architektúrára, amely
+nagyméretű tanítóadatokon betanítva képes különböző objektumok
+szegmentálására minimális felhasználói beavatkozás mellett.
+
+A SAM dokumentációjának és kapcsolódó publikációinak áttekintése alapján
+a modell erőssége az általános vizuális reprezentációk kezelése.
+Ugyanakkor a műholdképek speciális jellemzői – például a hajók kis
+mérete, a változó felbontás és az alacsony kontraszt – miatt a modell
+alkalmazása ebben a konkrét feladatban korlátozott hatékonyságot
+mutathat. Emellett a modell számítási igénye és komplexitása is
+jelentősnek bizonyult.
+
+Ezeket figyelembe véve végül nem egy általános célú szegmentációs
+modellt, hanem egy feladatspecifikus, saját tanítású neurális hálózatot
+választottunk, amely jobban illeszkedik az Airbus Ship Detection
+Challenge adathalmazához.
+
+\subsection{Kaggle közösségi megoldások}
+A modell tervezése során a Kaggle platformon elérhető nyilvános
+megoldásokat és kódrészleteket is elemeztük. Ezek a közösségi megoldások
+értékes betekintést nyújtottak az adathalmaz tipikus problémáiba,
+valamint a gyakran alkalmazott architektúrákba és tanítási stratégiákba.
+
+Számos sikeres megoldás U-Net alapú szegmentációs architektúrát
+alkalmazott, különböző encoder struktúrákkal és speciális
+veszteségfüggvényekkel. Gyakori megközelítés volt a Dice-alapú loss
+függvények használata, valamint az adatok kiegyensúlyozásának kezelése,
+mivel a hajó nélküli képek jelentős túlsúlyban vannak az adathalmazban.
+
+A közösségi megoldások tanulmányozása inspirációként szolgált, azonban
+a végső modell nem kész megoldások átvételén alapult, hanem a
+tapasztalatok felhasználásával kialakított, saját implementáció
+eredménye.
+
+
+
+\section{Rendszerterv}
+\section{Rendszerterv}
+A megvalósított rendszer egy végponttól végpontig tanítható,
+mélytanulás-alapú feldolgozási láncot valósít meg, amely a nyers
+műholdképekből közvetlenül hajókat jelölő szegmentációs maszkokat állít
+elő. A rendszer célja, hogy minimalizálja a kézi beavatkozás szükségességét,
+és automatikusan tanulja meg azokat a vizuális jellemzőket, amelyek a
+hajók elkülönítéséhez szükségesek.
+
+A bemeneti adatokat RGB műholdképek alkotják, amelyek különböző
+földrajzi területekről és eltérő környezeti feltételek mellett készültek.
+A kimenet egy bináris szegmentációs maszk, amely pixel-szinten jelöli a
+hajókhoz tartozó területeket. Ez a megközelítés lehetővé teszi nemcsak a
+hajók jelenlétének detektálását, hanem azok pontos lokalizációját is.
+
+A rendszer központi eleme egy konvolúciós neurális hálózat, amely
+encoder–decoder architektúrát követ. Az encoder feladata a bemeneti
+képek hierarchikus jellemzőinek kinyerése, amely során a hálózat egyre
+absztraktabb reprezentációkat tanul meg. A decoder ezekből a
+reprezentációkból állítja elő az eredeti felbontású szegmentációs maszkot.
+
+Az architektúrában alkalmazott áthidaló kapcsolatok (skip connections)
+kulcsszerepet játszanak a finom részletek megőrzésében. Ezek a kapcsolatok
+lehetővé teszik, hogy az encoder korai rétegeiben kinyert alacsony szintű
+jellemzők közvetlenül eljussanak a decoder megfelelő rétegeibe, ezáltal
+javítva a szegmentáció pontosságát, különösen kis méretű objektumok
+esetén.
+
+
+\section{Megvalósítás}
+\subsection{Adatok beszerzése és előkészítése}
+A feladat során az Airbus Ship Detection Challenge keretében
+nyilvánosan elérhető Kaggle adathalmazt használtuk. Az adathalmaz
+nagyfelbontású RGB műholdképeket tartalmaz, amelyekhez hajókat jelölő
+annotációk tartoznak. Az annotációk futamhossz-kódolással (Run-Length
+Encoding, RLE) vannak reprezentálva, amely tömör formában írja le a
+bináris szegmentációs maszkokat.
+
+Az előfeldolgozás első lépéseként az RLE formátumú annotációkat
+pixel-alapú bináris maszkokká alakítottuk. Ezt követően a bemeneti
+képeket normalizáltuk, hogy a pixelértékek egységes tartományba
+essenek, ezáltal stabilabb tanítási folyamatot biztosítva. Az adatok
+előkészítése során figyelembe vettük azt a sajátosságot is, hogy az
+adathalmaz jelentős részében nem található hajó, ami osztály-arány
+eltolódáshoz vezethet.
+
+
+\subsection{Tanítás}
+A hálózat tanítása felügyelt tanulási módszerrel történt, ahol a bemeneti
+műholdképekhez tartozó bináris maszkok szolgáltak célértékként. A
+tanítás során olyan veszteségfüggvényt alkalmaztunk, amely kifejezetten
+alkalmas szegmentációs feladatokra, és képes kezelni a hajó és nem hajó
+pixelek közötti egyensúlytalanságot.
+
+Az optimalizálást iteratív, gradiens-alapú módszerrel végeztük, amely
+során a hálózat paraméterei lépésről lépésre módosultak a veszteség
+minimalizálása érdekében. A tanítási folyamat során az adathalmazt
+külön tanító és validációs halmazra osztottuk, ami lehetővé tette a
+modell általánosítási képességének nyomon követését.
+
+A validációs halmazon mért teljesítmény alapján következtettünk a
+túltanulás megjelenésére, és ennek megfelelően állítottuk be a tanítás
+hosszát. Ez a megközelítés hozzájárult egy stabilabb és megbízhatóbb
+modell kialakításához.
+
+
+\subsection{Kiértékelés és tesztelés}
+A modell teljesítményét a tanítási, validációs és teszt halmazon
+értékeltük. A kiértékelés során nemcsak a veszteségfüggvény alakulását
+vizsgáltuk, hanem a szegmentáció minőségét jellemző mérőszámokat is,
+amelyek pontosabb képet adnak a modell gyakorlati használhatóságáról.
+
+A tanítási és validációs görbék elemzése alapján megállapítható volt,
+hogy a modell képes volt megtanulni a releváns vizuális mintázatokat,
+miközben elkerülte a jelentős túltanulást. A teszt halmazon elért
+eredmények azt mutatták, hogy a hálózat összetett háttérrel rendelkező
+képek esetén is megbízhatóan képes a hajók detektálására.
+
+A kiértékelés során külön figyelmet fordítottunk a kis méretű hajók
+szegmentációjára, mivel ezek jelentik a feladat egyik legnagyobb
+kihívását. Az eredmények alapján a választott architektúra megfelelő
+kompromisszumot nyújtott a pontosság és a számítási igény között.
+
+
+
+\section{Jövőbeli tervek és összefoglalás}
+A bemutatott megoldás igazolja, hogy a konvolúciós neurális hálózatokon
+alapuló szegmentáció hatékony eszközt jelent a hajók automatikus
+detektálására műholdképeken. A jövőben a modell továbbfejleszthető
+komplexebb architektúrák alkalmazásával, valamint kiterjedtebb
+adataugmentációs technikák bevezetésével.
+
+További lehetséges irányt jelent az előtanított hálózatok használata,
+amelyek gyorsabb konvergenciát és jobb általánosítást eredményezhetnek.
+Emellett a módszer más távérzékelési feladatokra, például repülőgépek
+vagy épületek detektálására is kiterjeszthető.
+
+
+\section*{References}
+\small
+
+[1] Alexander, J.A.\ \& Mozer, M.C.\ (1995) Template-based algorithms
+for connectionist rule extraction. In G.\ Tesauro, D.S.\ Touretzky and
+T.K.\ Leen (eds.), {\it Advances in Neural Information Processing
+  Systems 7}, pp.\ 609--616. Cambridge, MA: MIT Press.
+
+[2] Bower, J.M.\ \& Beeman, D.\ (1995) {\it The Book of GENESIS:
+  Exploring Realistic Neural Models with the GEneral NEural SImulation
+  System.}  New York: TELOS/Springer--Verlag.
+
+[3] Hasselmo, M.E., Schnell, E.\ \& Barkai, E.\ (1995) Dynamics of
+learning and recall at excitatory recurrent synapses and cholinergic
+modulation in rat hippocampal region CA3. {\it Journal of
+  Neuroscience} {\bf 15}(7):5249-5262.
+
+\end{document}
