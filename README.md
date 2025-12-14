@@ -97,8 +97,6 @@ The repository is organized as follows:
 │   └── helper modules and reusable components
 ├── documentation/
 │   └── report and assignment-related files
-├── log/
-│   └── run.log
 ├── Dockerfile
 ├── docker-compose.yaml
 ├── requirements.txt
@@ -117,8 +115,6 @@ The repository is organized as follows:
   - Helper modules used by the notebooks (data loading utilities,
     model helpers, etc.)
 
-- **`log/`**
-  - Contains runtime logs generated during Docker execution
 
 - **Root directory**
   - `Dockerfile`: Defines the AI training environment
