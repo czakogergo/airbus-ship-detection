@@ -1,6 +1,8 @@
 services:
   segmentai:
     build: .
+    volumes:
+      - ${HOST_DATA_DIR}:/work/data
     deploy:
       resources:
         reservations:
