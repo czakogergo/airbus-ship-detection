@@ -1,7 +1,6 @@
 import numpy as np
 import tensorflow as tf
 import cv2
-from metricsTools import image_f2_score 
 
 def iou(mask1, mask2):
     """Compute IoU between two masks (handles numpy arrays or tensors).
@@ -124,7 +123,6 @@ def f2_score_per_image(gt_mask, pred_mask):
 
     return float(np.mean(f2_scores))
 
-
 def evaluate_dataset_competition_f2(model, test_dataset, pred_threshold=0.5):
     """Evaluate a model on a dataset using competition-style mean F2 score.
 
@@ -141,17 +139,20 @@ def evaluate_dataset_competition_f2(model, test_dataset, pred_threshold=0.5):
         float: Mean F2 score over the dataset.
     """
     all_scores = []
-    for test_data in test_dataset:
-        X, y = test_data            # X: images, y: GT masks
-        batch_size = len(test_data)
-        for i in range(batch_size):
-            preds = model.predict(X[i].numpy()[np.newaxis, ...], verbose=0)   # probability masks
-            # Binarize
-            preds_bin = (preds > pred_threshold).astype(np.uint8)
 
-            score = f2_score_per_image(y[i] > 0.5, preds_bin)  # ensure GT is binary
+    for X, y in test_dataset:
+        batch_size = X.shape[0]
+
+        # Predikció teljes batch-re (GYORSABB + BIZTOS)
+        preds = model.predict(X, verbose=0)
+        preds_bin = (preds > pred_threshold).astype(np.uint8)
+
+        for i in range(batch_size):
+            # GT binarizálása
+            y_true = (y[i] > 0.5).numpy().astype(np.uint8)
+            y_pred = preds_bin[i]
+
+            score = f2_score_per_image(y_true, y_pred)
             all_scores.append(score)
 
     return float(np.mean(all_scores))
-
-
