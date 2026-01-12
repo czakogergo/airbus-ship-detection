@@ -22,4 +22,5 @@ RUN chmod +x /work/run.sh || true
 
 # Set the entrypoint to run the training script by default
 # You can override this with `docker run ... python src/04-inference.py` etc.
-CMD ["bash", "/work/run.sh"]
+#CMD ["bash", "/work/run.sh"]
+CMD ["bash"]
