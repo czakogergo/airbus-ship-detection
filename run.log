@@ -1,0 +1,278 @@
+#1 [internal] load local bake definitions
+#1 reading from stdin 440B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 790B 0.0s done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/tensorflow/tensorflow:2.15.0-gpu
+#3 DONE 0.5s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 2B 0.0s done
+#4 DONE 0.0s
+
+#5 [ 1/12] FROM docker.io/tensorflow/tensorflow:2.15.0-gpu@sha256:66b44c162783bb92ab6f44c1b38bcdfef70af20937089deb7bc20a4f3d7e5491
+#5 resolve docker.io/tensorflow/tensorflow:2.15.0-gpu@sha256:66b44c162783bb92ab6f44c1b38bcdfef70af20937089deb7bc20a4f3d7e5491 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 587B 0.1s done
+#6 DONE 0.1s
+
+#7 [ 7/12] RUN apt-get install -y libgl1-mesa-glx
+#7 CACHED
+
+#8 [ 9/12] COPY notebook/ notebook/
+#8 CACHED
+
+#9 [10/12] COPY run.sh run.sh
+#9 CACHED
+
+#10 [ 6/12] RUN apt-get update
+#10 CACHED
+
+#11 [11/12] RUN mkdir -p /work/data
+#11 CACHED
+
+#12 [ 2/12] WORKDIR /work
+#12 CACHED
+
+#13 [ 3/12] COPY requirements.txt .
+#13 CACHED
+
+#14 [ 4/12] RUN pip install --no-cache-dir -r requirements.txt
+#14 CACHED
+
+#15 [ 5/12] RUN pip install --no-cache-dir --force-reinstall numpy==1.26.4
+#15 CACHED
+
+#16 [ 8/12] COPY src/ src/
+#16 CACHED
+
+#17 [12/12] RUN chmod +x /work/run.sh || true
+#17 CACHED
+
+#18 exporting to image
+#18 exporting layers 0.0s done
+#18 exporting manifest sha256:aebcec32d4d0d8d7365242688a54ac7bafc84bfdb20f86f2fe9e6c194f98e5d8 done
+#18 exporting config sha256:d3ce3bc2a3eb641dec57f56fc38c7d99f1010bf87b39731beb110deff067b133 done
+#18 exporting attestation manifest sha256:101e0e14eae844ef935186a6d759a9161f1e0e82b6fa4efe23535b37b7acd66a 0.0s done
+#18 exporting manifest list sha256:58f0a4a00591297c256af2b1086eb9f9b7da5c1d21148ea4af2885a5af37b42c 0.0s done
+#18 naming to docker.io/library/airbus-ship-detection-segmentai:latest done
+#18 unpacking to docker.io/library/airbus-ship-detection-segmentai:latest 0.0s done
+#18 DONE 0.2s
+
+#19 resolving provenance for metadata file
+#19 DONE 0.0s
+ segmentai  Built
+ Container airbus-ship-detection-segmentai-1  Recreate
+ Container airbus-ship-detection-segmentai-1  Recreated
+Attaching to segmentai-1
+segmentai-1  | [run.sh] Starting full pipeline run at 2026-01-12T20:15:10+00:00
+segmentai-1  | 2026-01-12 20:15:10.861184: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+segmentai-1  | 2026-01-12 20:15:10.861258: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+segmentai-1  | 2026-01-12 20:15:10.863854: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+segmentai-1  | 2026-01-12 20:15:10.872152: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+segmentai-1  | To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+segmentai-1  | 2026-01-12 20:15:12,663 - INFO - Preprocessing data...
+segmentai-1  | 2026-01-12 20:15:17.237121: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:887] could not open file to read NUMA node: /sys/bus/pci/devices/0000:10:00.0/numa_node
+segmentai-1  | Your kernel may have been built without NUMA support.
+segmentai-1  | 2026-01-12 20:15:17.247399: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:887] could not open file to read NUMA node: /sys/bus/pci/devices/0000:10:00.0/numa_node
+segmentai-1  | Your kernel may have been built without NUMA support.
+segmentai-1  | 2026-01-12 20:15:17.247521: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:887] could not open file to read NUMA node: /sys/bus/pci/devices/0000:10:00.0/numa_node
+segmentai-1  | Your kernel may have been built without NUMA support.
+segmentai-1  | 2026-01-12 20:15:17.249811: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:887] could not open file to read NUMA node: /sys/bus/pci/devices/0000:10:00.0/numa_node
+segmentai-1  | Your kernel may have been built without NUMA support.
+segmentai-1  | 2026-01-12 20:15:17.249885: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:887] could not open file to read NUMA node: /sys/bus/pci/devices/0000:10:00.0/numa_node
+segmentai-1  | Your kernel may have been built without NUMA support.
+segmentai-1  | 2026-01-12 20:15:17.249917: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:887] could not open file to read NUMA node: /sys/bus/pci/devices/0000:10:00.0/numa_node
+segmentai-1  | Your kernel may have been built without NUMA support.
+segmentai-1  | 2026-01-12 20:15:17.487695: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:887] could not open file to read NUMA node: /sys/bus/pci/devices/0000:10:00.0/numa_node
+segmentai-1  | Your kernel may have been built without NUMA support.
+segmentai-1  | 2026-01-12 20:15:17.487777: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:887] could not open file to read NUMA node: /sys/bus/pci/devices/0000:10:00.0/numa_node
+segmentai-1  | Your kernel may have been built without NUMA support.
+segmentai-1  | 2026-01-12 20:15:17.487789: I tensorflow/core/common_runtime/gpu/gpu_device.cc:2022] Could not identify NUMA node of platform GPU id 0, defaulting to 0.  Your kernel may not have been built with NUMA support.
+segmentai-1  | 2026-01-12 20:15:17.487830: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:887] could not open file to read NUMA node: /sys/bus/pci/devices/0000:10:00.0/numa_node
+segmentai-1  | Your kernel may have been built without NUMA support.
+segmentai-1  | 2026-01-12 20:15:17.487867: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1929] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 2244 MB memory:  -> device: 0, name: NVIDIA GeForce GTX 1650, pci bus id: 0000:10:00.0, compute capability: 7.5
+segmentai-1  | 2026-01-12 20:15:25.165905: W external/local_tsl/tsl/framework/cpu_allocator_impl.cc:83] Allocation of 196608000 exceeds 10% of free system memory.
+segmentai-1  | 2026-01-12 20:15:25.716330: W external/local_tsl/tsl/framework/cpu_allocator_impl.cc:83] Allocation of 196608000 exceeds 10% of free system memory.
+segmentai-1  | 2026-01-12 20:15:26.392808: W external/local_tsl/tsl/framework/cpu_allocator_impl.cc:83] Allocation of 157286400 exceeds 10% of free system memory.
+segmentai-1  | 2026-01-12 20:15:26.780327: W external/local_tsl/tsl/framework/cpu_allocator_impl.cc:83] Allocation of 157286400 exceeds 10% of free system memory.
+segmentai-1  | 2026-01-12 20:15:27.153491: W external/local_tsl/tsl/framework/cpu_allocator_impl.cc:83] Allocation of 157286400 exceeds 10% of free system memory.
+segmentai-1  | 2026-01-12 20:15:30,960 - INFO - Preprocessing finished!
+segmentai-1  | 2026-01-12 20:15:32.421104: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+segmentai-1  | 2026-01-12 20:15:32.421176: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+segmentai-1  | 2026-01-12 20:15:32.423035: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+segmentai-1  | 2026-01-12 20:15:32.430599: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+segmentai-1  | To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+segmentai-1  | 2026-01-12 20:15:34,154 - INFO - Starting training process...
+segmentai-1  | 2026-01-12 20:15:34,154 - INFO - Loaded configuration. Epochs: 1
+segmentai-1  | 2026-01-12 20:15:34.205951: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:887] could not open file to read NUMA node: /sys/bus/pci/devices/0000:10:00.0/numa_node
+segmentai-1  | Your kernel may have been built without NUMA support.
+segmentai-1  | 2026-01-12 20:15:34.216545: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:887] could not open file to read NUMA node: /sys/bus/pci/devices/0000:10:00.0/numa_node
+segmentai-1  | Your kernel may have been built without NUMA support.
+segmentai-1  | 2026-01-12 20:15:34.216647: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:887] could not open file to read NUMA node: /sys/bus/pci/devices/0000:10:00.0/numa_node
+segmentai-1  | Your kernel may have been built without NUMA support.
+segmentai-1  | 2026-01-12 20:15:34.219393: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:887] could not open file to read NUMA node: /sys/bus/pci/devices/0000:10:00.0/numa_node
+segmentai-1  | Your kernel may have been built without NUMA support.
+segmentai-1  | 2026-01-12 20:15:34.219493: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:887] could not open file to read NUMA node: /sys/bus/pci/devices/0000:10:00.0/numa_node
+segmentai-1  | Your kernel may have been built without NUMA support.
+segmentai-1  | 2026-01-12 20:15:34.219539: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:887] could not open file to read NUMA node: /sys/bus/pci/devices/0000:10:00.0/numa_node
+segmentai-1  | Your kernel may have been built without NUMA support.
+segmentai-1  | 2026-01-12 20:15:34.470682: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:887] could not open file to read NUMA node: /sys/bus/pci/devices/0000:10:00.0/numa_node
+segmentai-1  | Your kernel may have been built without NUMA support.
+segmentai-1  | 2026-01-12 20:15:34.470771: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:887] could not open file to read NUMA node: /sys/bus/pci/devices/0000:10:00.0/numa_node
+segmentai-1  | Your kernel may have been built without NUMA support.
+segmentai-1  | 2026-01-12 20:15:34.470783: I tensorflow/core/common_runtime/gpu/gpu_device.cc:2022] Could not identify NUMA node of platform GPU id 0, defaulting to 0.  Your kernel may not have been built with NUMA support.
+segmentai-1  | 2026-01-12 20:15:34.470826: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:887] could not open file to read NUMA node: /sys/bus/pci/devices/0000:10:00.0/numa_node
+segmentai-1  | Your kernel may have been built without NUMA support.
+segmentai-1  | 2026-01-12 20:15:34.470867: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1929] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 2244 MB memory:  -> device: 0, name: NVIDIA GeForce GTX 1650, pci bus id: 0000:10:00.0, compute capability: 7.5
+segmentai-1  | Model: "model"
+segmentai-1  | __________________________________________________________________________________________________
+segmentai-1  |  Layer (type)                Output Shape                 Param #   Connected to                  
+segmentai-1  | ==================================================================================================
+segmentai-1  |  input_1 (InputLayer)        [(None, 128, 128, 3)]        0         []                            
+segmentai-1  |                                                                                                   
+segmentai-1  |  conv2d (Conv2D)             (None, 128, 128, 64)         1792      ['input_1[0][0]']             
+segmentai-1  |                                                                                                   
+segmentai-1  |  conv2d_1 (Conv2D)           (None, 128, 128, 64)         36928     ['conv2d[0][0]']              
+segmentai-1  |                                                                                                   
+segmentai-1  |  max_pooling2d (MaxPooling2  (None, 64, 64, 64)           0         ['conv2d_1[0][0]']            
+segmentai-1  |  D)                                                                                               
+segmentai-1  |                                                                                                   
+segmentai-1  |  conv2d_2 (Conv2D)           (None, 64, 64, 128)          73856     ['max_pooling2d[0][0]']       
+segmentai-1  |                                                                                                   
+segmentai-1  |  conv2d_3 (Conv2D)           (None, 64, 64, 128)          147584    ['conv2d_2[0][0]']            
+segmentai-1  |                                                                                                   
+segmentai-1  |  max_pooling2d_1 (MaxPoolin  (None, 32, 32, 128)          0         ['conv2d_3[0][0]']            
+segmentai-1  |  g2D)                                                                                             
+segmentai-1  |                                                                                                   
+segmentai-1  |  conv2d_4 (Conv2D)           (None, 32, 32, 256)          295168    ['max_pooling2d_1[0][0]']     
+segmentai-1  |                                                                                                   
+segmentai-1  |  conv2d_5 (Conv2D)           (None, 32, 32, 256)          590080    ['conv2d_4[0][0]']            
+segmentai-1  |                                                                                                   
+segmentai-1  |  max_pooling2d_2 (MaxPoolin  (None, 16, 16, 256)          0         ['conv2d_5[0][0]']            
+segmentai-1  |  g2D)                                                                                             
+segmentai-1  |                                                                                                   
+segmentai-1  |  conv2d_6 (Conv2D)           (None, 16, 16, 512)          1180160   ['max_pooling2d_2[0][0]']     
+segmentai-1  |                                                                                                   
+segmentai-1  |  conv2d_7 (Conv2D)           (None, 16, 16, 512)          2359808   ['conv2d_6[0][0]']            
+segmentai-1  |                                                                                                   
+segmentai-1  |  max_pooling2d_3 (MaxPoolin  (None, 8, 8, 512)            0         ['conv2d_7[0][0]']            
+segmentai-1  |  g2D)                                                                                             
+segmentai-1  |                                                                                                   
+segmentai-1  |  conv2d_8 (Conv2D)           (None, 8, 8, 1024)           4719616   ['max_pooling2d_3[0][0]']     
+segmentai-1  |                                                                                                   
+segmentai-1  |  conv2d_9 (Conv2D)           (None, 8, 8, 1024)           9438208   ['conv2d_8[0][0]']            
+segmentai-1  |                                                                                                   
+segmentai-1  |  up_sampling2d (UpSampling2  (None, 16, 16, 1024)         0         ['conv2d_9[0][0]']            
+segmentai-1  |  D)                                                                                               
+segmentai-1  |                                                                                                   
+segmentai-1  |  concatenate (Concatenate)   (None, 16, 16, 1536)         0         ['up_sampling2d[0][0]',       
+segmentai-1  |                                                                      'conv2d_7[0][0]']            
+segmentai-1  |                                                                                                   
+segmentai-1  |  conv2d_10 (Conv2D)          (None, 16, 16, 512)          7078400   ['concatenate[0][0]']         
+segmentai-1  |                                                                                                   
+segmentai-1  |  conv2d_11 (Conv2D)          (None, 16, 16, 512)          2359808   ['conv2d_10[0][0]']           
+segmentai-1  |                                                                                                   
+segmentai-1  |  up_sampling2d_1 (UpSamplin  (None, 32, 32, 512)          0         ['conv2d_11[0][0]']           
+segmentai-1  |  g2D)                                                                                             
+segmentai-1  |                                                                                                   
+segmentai-1  |  concatenate_1 (Concatenate  (None, 32, 32, 768)          0         ['up_sampling2d_1[0][0]',     
+segmentai-1  |  )                                                                   'conv2d_5[0][0]']            
+segmentai-1  |                                                                                                   
+segmentai-1  |  conv2d_12 (Conv2D)          (None, 32, 32, 256)          1769728   ['concatenate_1[0][0]']       
+segmentai-1  |                                                                                                   
+segmentai-1  |  conv2d_13 (Conv2D)          (None, 32, 32, 256)          590080    ['conv2d_12[0][0]']           
+segmentai-1  |                                                                                                   
+segmentai-1  |  up_sampling2d_2 (UpSamplin  (None, 64, 64, 256)          0         ['conv2d_13[0][0]']           
+segmentai-1  |  g2D)                                                                                             
+segmentai-1  |                                                                                                   
+segmentai-1  |  concatenate_2 (Concatenate  (None, 64, 64, 384)          0         ['up_sampling2d_2[0][0]',     
+segmentai-1  |  )                                                                   'conv2d_3[0][0]']            
+segmentai-1  |                                                                                                   
+segmentai-1  |  conv2d_14 (Conv2D)          (None, 64, 64, 128)          442496    ['concatenate_2[0][0]']       
+segmentai-1  |                                                                                                   
+segmentai-1  |  conv2d_15 (Conv2D)          (None, 64, 64, 128)          147584    ['conv2d_14[0][0]']           
+segmentai-1  |                                                                                                   
+segmentai-1  |  up_sampling2d_3 (UpSamplin  (None, 128, 128, 128)        0         ['conv2d_15[0][0]']           
+segmentai-1  |  g2D)                                                                                             
+segmentai-1  |                                                                                                   
+segmentai-1  |  concatenate_3 (Concatenate  (None, 128, 128, 192)        0         ['up_sampling2d_3[0][0]',     
+segmentai-1  |  )                                                                   'conv2d_1[0][0]']            
+segmentai-1  |                                                                                                   
+segmentai-1  |  conv2d_16 (Conv2D)          (None, 128, 128, 64)         110656    ['concatenate_3[0][0]']       
+segmentai-1  |                                                                                                   
+segmentai-1  |  conv2d_17 (Conv2D)          (None, 128, 128, 64)         36928     ['conv2d_16[0][0]']           
+segmentai-1  |                                                                                                   
+segmentai-1  |  conv2d_18 (Conv2D)          (None, 128, 128, 1)          65        ['conv2d_17[0][0]']           
+segmentai-1  |                                                                                                   
+segmentai-1  | ==================================================================================================
+segmentai-1  | Total params: 31378945 (119.70 MB)
+segmentai-1  | Trainable params: 31378945 (119.70 MB)
+segmentai-1  | Non-trainable params: 0 (0.00 Byte)
+segmentai-1  | __________________________________________________________________________________________________
+segmentai-1  | 2026-01-12 20:15:37.099794: I external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:454] Loaded cuDNN version 8906
+segmentai-1  | 2026-01-12 20:15:37.652318: W external/local_tsl/tsl/framework/bfc_allocator.cc:296] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.54GiB with freed_by_count=0. The caller indicates that this is not a failure, but this may mean that there could be performance gains if more memory were available.
+segmentai-1  | 2026-01-12 20:15:37.836558: W external/local_tsl/tsl/framework/bfc_allocator.cc:296] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.54GiB with freed_by_count=0. The caller indicates that this is not a failure, but this may mean that there could be performance gains if more memory were available.
+segmentai-1  | 2026-01-12 20:15:38.233213: W external/local_tsl/tsl/framework/bfc_allocator.cc:296] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.30GiB with freed_by_count=0. The caller indicates that this is not a failure, but this may mean that there could be performance gains if more memory were available.
+segmentai-1  | 2026-01-12 20:15:38.397206: W external/local_tsl/tsl/framework/bfc_allocator.cc:296] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.30GiB with freed_by_count=0. The caller indicates that this is not a failure, but this may mean that there could be performance gains if more memory were available.
+segmentai-1  | 2026-01-12 20:15:38.759637: W external/local_tsl/tsl/framework/bfc_allocator.cc:296] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.21GiB with freed_by_count=0. The caller indicates that this is not a failure, but this may mean that there could be performance gains if more memory were available.
+segmentai-1  | 2026-01-12 20:15:38.927192: W external/local_tsl/tsl/framework/bfc_allocator.cc:296] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.21GiB with freed_by_count=0. The caller indicates that this is not a failure, but this may mean that there could be performance gains if more memory were available.
+segmentai-1  | 2026-01-12 20:15:39.277059: W external/local_tsl/tsl/framework/bfc_allocator.cc:296] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.22GiB with freed_by_count=0. The caller indicates that this is not a failure, but this may mean that there could be performance gains if more memory were available.
+segmentai-1  | 2026-01-12 20:15:39.451259: W external/local_tsl/tsl/framework/bfc_allocator.cc:296] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.22GiB with freed_by_count=0. The caller indicates that this is not a failure, but this may mean that there could be performance gains if more memory were available.
+segmentai-1  | 2026-01-12 20:15:39.708706: W external/local_tsl/tsl/framework/bfc_allocator.cc:296] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.24GiB with freed_by_count=0. The caller indicates that this is not a failure, but this may mean that there could be performance gains if more memory were available.
+segmentai-1  | 2026-01-12 20:15:39.820877: W external/local_tsl/tsl/framework/bfc_allocator.cc:296] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.24GiB with freed_by_count=0. The caller indicates that this is not a failure, but this may mean that there could be performance gains if more memory were available.
+segmentai-1  | 2026-01-12 20:15:44.705142: I external/local_xla/xla/service/service.cc:168] XLA service 0x793838966b30 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+segmentai-1  | 2026-01-12 20:15:44.705211: I external/local_xla/xla/service/service.cc:176]   StreamExecutor device (0): NVIDIA GeForce GTX 1650, Compute Capability 7.5
+segmentai-1  | 2026-01-12 20:15:44.712976: I tensorflow/compiler/mlir/tensorflow/utils/dump_mlir_util.cc:269] disabling MLIR crash reproducer, set env var `MLIR_CRASH_REPRODUCER_DIRECTORY` to enable.
+segmentai-1  | WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+segmentai-1  | I0000 00:00:1768248944.800503     219 device_compiler.h:186] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
+segmentai-1  |  1/40 [..............................] - ETA: 15:06 - loss: 0.6973 - iou_metric: 8.4377e-04 - dice_coef: 0.0017 2/40 [>.............................] - ETA: 14s - loss: 0.5151 - iou_metric: 0.3129 - dice_coef: 0.3133       3/40 [=>............................] - ETA: 14s - loss: 3.8899 - iou_metric: 0.3128 - dice_coef: 0.3131 4/40 [==>...........................] - ETA: 14s - loss: 2.9320 - iou_metric: 0.3596 - dice_coef: 0.3598 5/40 [==>...........................] - ETA: 13s - loss: 2.4486 - iou_metric: 0.4377 - dice_coef: 0.4378 6/40 [===>..........................] - ETA: 13s - loss: 2.1372 - iou_metric: 0.4481 - dice_coef: 0.4482 7/40 [====>.........................] - ETA: 12s - loss: 1.9208 - iou_metric: 0.4465 - dice_coef: 0.4467 8/40 [=====>........................] - ETA: 12s - loss: 1.7562 - iou_metric: 0.4532 - dice_coef: 0.4533 9/40 [=====>........................] - ETA: 11s - loss: 1.6261 - iou_metric: 0.4654 - dice_coef: 0.465510/40 [======>.......................] - ETA: 11s - loss: 1.5175 - iou_metric: 0.4501 - dice_coef: 0.450211/40 [=======>......................] - ETA: 11s - loss: 1.4208 - iou_metric: 0.4376 - dice_coef: 0.437712/40 [========>.....................] - ETA: 10s - loss: 1.3183 - iou_metric: 0.4376 - dice_coef: 0.437613/40 [========>.....................] - ETA: 10s - loss: 1.2211 - iou_metric: 0.4376 - dice_coef: 0.437614/40 [=========>....................] - ETA: 10s - loss: 1.1469 - iou_metric: 0.4286 - dice_coef: 0.428715/40 [==========>...................] - ETA: 9s - loss: 1.0742 - iou_metric: 0.4501 - dice_coef: 0.4501 16/40 [===========>..................] - ETA: 9s - loss: 1.0071 - iou_metric: 0.4844 - dice_coef: 0.484517/40 [===========>..................] - ETA: 8s - loss: 0.9479 - iou_metric: 0.5148 - dice_coef: 0.514818/40 [============>.................] - ETA: 8s - loss: 0.8953 - iou_metric: 0.5417 - dice_coef: 0.541819/40 [=============>................] - ETA: 8s - loss: 0.8483 - iou_metric: 0.5658 - dice_coef: 0.565920/40 [==============>...............] - ETA: 7s - loss: 0.8059 - iou_metric: 0.5875 - dice_coef: 0.587621/40 [==============>...............] - ETA: 7s - loss: 0.7675 - iou_metric: 0.6072 - dice_coef: 0.607222/40 [===============>..............] - ETA: 6s - loss: 0.7327 - iou_metric: 0.6250 - dice_coef: 0.625123/40 [================>.............] - ETA: 6s - loss: 0.7008 - iou_metric: 0.6413 - dice_coef: 0.641424/40 [=================>............] - ETA: 6s - loss: 0.6716 - iou_metric: 0.6563 - dice_coef: 0.656325/40 [=================>............] - ETA: 5s - loss: 0.6447 - iou_metric: 0.6700 - dice_coef: 0.670126/40 [==================>...........] - ETA: 5s - loss: 0.6200 - iou_metric: 0.6827 - dice_coef: 0.682827/40 [===================>..........] - ETA: 4s - loss: 0.5970 - iou_metric: 0.6945 - dice_coef: 0.694528/40 [====================>.........] - ETA: 4s - loss: 0.5757 - iou_metric: 0.7054 - dice_coef: 0.705429/40 [====================>.........] - ETA: 4s - loss: 0.5558 - iou_metric: 0.7155 - dice_coef: 0.715630/40 [=====================>........] - ETA: 3s - loss: 0.5373 - iou_metric: 0.7250 - dice_coef: 0.725131/40 [======================>.......] - ETA: 3s - loss: 0.5200 - iou_metric: 0.7339 - dice_coef: 0.733932/40 [=======================>......] - ETA: 3s - loss: 0.5037 - iou_metric: 0.7422 - dice_coef: 0.742233/40 [=======================>......] - ETA: 2s - loss: 0.4884 - iou_metric: 0.7500 - dice_coef: 0.750134/40 [========================>.....] - ETA: 2s - loss: 0.4741 - iou_metric: 0.7574 - dice_coef: 0.757435/40 [=========================>....] - ETA: 1s - loss: 0.4605 - iou_metric: 0.7643 - dice_coef: 0.764336/40 [==========================>...] - ETA: 1s - loss: 0.4477 - iou_metric: 0.7709 - dice_coef: 0.770937/40 [==========================>...] - ETA: 1s - loss: 0.4356 - iou_metric: 0.7770 - dice_coef: 0.777138/40 [===========================>..] - ETA: 0s - loss: 0.4242 - iou_metric: 0.7829 - dice_coef: 0.782939/40 [============================>.] - ETA: 0s - loss: 0.4133 - iou_metric: 0.7885 - dice_coef: 0.788540/40 [==============================] - ETA: 0s - loss: 0.4030 - iou_metric: 0.7938 - dice_coef: 0.7938
+segmentai-1  | Epoch 1: val_loss improved from inf to 0.64523, saving model to /work/models/unet_airbus_best.keras
+segmentai-1  | 40/40 [==============================] - 42s 478ms/step - loss: 0.4030 - iou_metric: 0.7938 - dice_coef: 0.7938 - val_loss: 0.6452 - val_iou_metric: 0.7750 - val_dice_coef: 0.7750 - lr: 0.0010
+segmentai-1  | 2026-01-12 20:16:16,851 - INFO - Training complete.
+segmentai-1  | 2026-01-12 20:16:18.198607: E external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:9261] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+segmentai-1  | 2026-01-12 20:16:18.198685: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:607] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+segmentai-1  | 2026-01-12 20:16:18.200450: E external/local_xla/xla/stream_executor/cuda/cuda_blas.cc:1515] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+segmentai-1  | 2026-01-12 20:16:18.207920: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+segmentai-1  | To enable the following instructions: AVX2 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+segmentai-1  | 2026-01-12 20:16:20,232 - INFO - Evaluating model...
+segmentai-1  | 2026-01-12 20:16:20.306408: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:887] could not open file to read NUMA node: /sys/bus/pci/devices/0000:10:00.0/numa_node
+segmentai-1  | Your kernel may have been built without NUMA support.
+segmentai-1  | 2026-01-12 20:16:20.318674: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:887] could not open file to read NUMA node: /sys/bus/pci/devices/0000:10:00.0/numa_node
+segmentai-1  | Your kernel may have been built without NUMA support.
+segmentai-1  | 2026-01-12 20:16:20.318765: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:887] could not open file to read NUMA node: /sys/bus/pci/devices/0000:10:00.0/numa_node
+segmentai-1  | Your kernel may have been built without NUMA support.
+segmentai-1  | 2026-01-12 20:16:20.321251: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:887] could not open file to read NUMA node: /sys/bus/pci/devices/0000:10:00.0/numa_node
+segmentai-1  | Your kernel may have been built without NUMA support.
+segmentai-1  | 2026-01-12 20:16:20.321323: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:887] could not open file to read NUMA node: /sys/bus/pci/devices/0000:10:00.0/numa_node
+segmentai-1  | Your kernel may have been built without NUMA support.
+segmentai-1  | 2026-01-12 20:16:20.321353: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:887] could not open file to read NUMA node: /sys/bus/pci/devices/0000:10:00.0/numa_node
+segmentai-1  | Your kernel may have been built without NUMA support.
+segmentai-1  | 2026-01-12 20:16:20.539284: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:887] could not open file to read NUMA node: /sys/bus/pci/devices/0000:10:00.0/numa_node
+segmentai-1  | Your kernel may have been built without NUMA support.
+segmentai-1  | 2026-01-12 20:16:20.539374: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:887] could not open file to read NUMA node: /sys/bus/pci/devices/0000:10:00.0/numa_node
+segmentai-1  | Your kernel may have been built without NUMA support.
+segmentai-1  | 2026-01-12 20:16:20.539388: I tensorflow/core/common_runtime/gpu/gpu_device.cc:2022] Could not identify NUMA node of platform GPU id 0, defaulting to 0.  Your kernel may not have been built with NUMA support.
+segmentai-1  | 2026-01-12 20:16:20.539479: I external/local_xla/xla/stream_executor/cuda/cuda_executor.cc:887] could not open file to read NUMA node: /sys/bus/pci/devices/0000:10:00.0/numa_node
+segmentai-1  | Your kernel may have been built without NUMA support.
+segmentai-1  | 2026-01-12 20:16:20.539526: I tensorflow/core/common_runtime/gpu/gpu_device.cc:1929] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 2244 MB memory:  -> device: 0, name: NVIDIA GeForce GTX 1650, pci bus id: 0000:10:00.0, compute capability: 7.5
+segmentai-1  | 2026-01-12 20:16:43.597882: I external/local_xla/xla/stream_executor/cuda/cuda_dnn.cc:454] Loaded cuDNN version 8906
+segmentai-1  | 2026-01-12 20:16:44.302164: W external/local_tsl/tsl/framework/bfc_allocator.cc:296] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.54GiB with freed_by_count=0. The caller indicates that this is not a failure, but this may mean that there could be performance gains if more memory were available.
+segmentai-1  | 2026-01-12 20:16:44.491528: W external/local_tsl/tsl/framework/bfc_allocator.cc:296] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.54GiB with freed_by_count=0. The caller indicates that this is not a failure, but this may mean that there could be performance gains if more memory were available.
+segmentai-1  | 2026-01-12 20:16:44.906270: W external/local_tsl/tsl/framework/bfc_allocator.cc:296] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.30GiB with freed_by_count=0. The caller indicates that this is not a failure, but this may mean that there could be performance gains if more memory were available.
+segmentai-1  | 2026-01-12 20:16:45.079290: W external/local_tsl/tsl/framework/bfc_allocator.cc:296] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.30GiB with freed_by_count=0. The caller indicates that this is not a failure, but this may mean that there could be performance gains if more memory were available.
+segmentai-1  | 2026-01-12 20:16:45.458348: W external/local_tsl/tsl/framework/bfc_allocator.cc:296] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.21GiB with freed_by_count=0. The caller indicates that this is not a failure, but this may mean that there could be performance gains if more memory were available.
+segmentai-1  | 2026-01-12 20:16:45.636494: W external/local_tsl/tsl/framework/bfc_allocator.cc:296] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.21GiB with freed_by_count=0. The caller indicates that this is not a failure, but this may mean that there could be performance gains if more memory were available.
+segmentai-1  | 2026-01-12 20:16:46.001172: W external/local_tsl/tsl/framework/bfc_allocator.cc:296] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.22GiB with freed_by_count=0. The caller indicates that this is not a failure, but this may mean that there could be performance gains if more memory were available.
+segmentai-1  | 2026-01-12 20:16:46.178499: W external/local_tsl/tsl/framework/bfc_allocator.cc:296] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.22GiB with freed_by_count=0. The caller indicates that this is not a failure, but this may mean that there could be performance gains if more memory were available.
+segmentai-1  | 2026-01-12 20:16:46.434725: W external/local_tsl/tsl/framework/bfc_allocator.cc:296] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.24GiB with freed_by_count=0. The caller indicates that this is not a failure, but this may mean that there could be performance gains if more memory were available.
+segmentai-1  | 2026-01-12 20:16:46.542943: W external/local_tsl/tsl/framework/bfc_allocator.cc:296] Allocator (GPU_0_bfc) ran out of memory trying to allocate 2.24GiB with freed_by_count=0. The caller indicates that this is not a failure, but this may mean that there could be performance gains if more memory were available.
+segmentai-1  | 2026-01-12 20:16:56,100 - INFO - Test Score: 0.805
+segmentai-1  | 2026-01-12 20:16:56,100 - INFO - Evaluating ended
+segmentai-1  | [run.sh] Pipeline finished at 2026-01-12T20:16:56+00:00
+[Ksegmentai-1 exited with code 0
