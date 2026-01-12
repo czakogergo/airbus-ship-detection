@@ -101,6 +101,20 @@ def create_dataset(image_dir, mask_csv):
     dataset = tf.data.Dataset.from_tensor_slices((images, masks, counts))
     return dataset
 
+def balance_dataset(dataset):
+    positive = dataset.filter(lambda img, mask, count: count > 0)
+    negative = dataset.filter(lambda img, mask, count: count == 0)
+
+    return tf.data.Dataset.sample_from_datasets(
+        [positive, negative],
+        weights=[0.5, 0.5]
+    )
+
+#Kidobjuk a számláló attribútumot
+def drop_count(img, mask, count):
+    return img, mask
+
+
 def train_valid_test_datasetCreating(dataset):
     """Split a dataset into training, validation and test sets and balance positives.
 
@@ -115,24 +129,17 @@ def train_valid_test_datasetCreating(dataset):
         tuple: (train_dataset, val_dataset, test_dataset) where each yields
                (image, mask) pairs.
     """
-    train_dataset, test_dataset = tf.keras.utils.split_dataset(dataset,left_size=0.8, shuffle=True)
-    train_dataset, val_dataset = tf.keras.utils.split_dataset(train_dataset,left_size=0.8, shuffle=True)
+    train_dataset, test_dataset = tf.keras.utils.split_dataset(
+        dataset, left_size=0.8, shuffle=True
+    )
 
-    train_dataset_notEmpty = train_dataset.filter(lambda img, mask, count: count > 0)
-    train_dataset_empty = train_dataset.filter(lambda img, mask, count: count == 0)
+    train_dataset, val_dataset = tf.keras.utils.split_dataset(
+        train_dataset, left_size=0.8, shuffle=True
+    )
 
-    notEmpty_len = tf.data.experimental.cardinality(train_dataset_notEmpty).numpy()
-    train_dataset_empty = train_dataset_empty.take(notEmpty_len)
-
-    train_dataset = train_dataset_empty.concatenate(train_dataset_notEmpty)
-
-    train_counts = train_dataset.map(lambda img, mask, count: count)
-    val_counts = val_dataset.map(lambda img, mask, count: count)
-    test_counts = test_dataset.map(lambda img, mask, count: count)
-
-    train_dataset = train_dataset.map(lambda img, mask, count: (img, mask))
-    val_dataset = val_dataset.map(lambda img, mask, count: (img, mask))
-    test_dataset = test_dataset.map(lambda img, mask, count: (img, mask))
+    train_dataset = balance_dataset(train_dataset).map(drop_count)
+    val_dataset   = balance_dataset(val_dataset).map(drop_count)
+    test_dataset  = balance_dataset(test_dataset).map(drop_count)
 
     return train_dataset, val_dataset, test_dataset
 

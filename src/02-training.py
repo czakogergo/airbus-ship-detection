@@ -9,7 +9,7 @@ import tensorflow as tf
 from keras import layers, Model
 from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
 
-from metricsTools import dice_coef, iou_score, bce_dice_loss, f2_score_pixel
+from metricsTools import iou_metric, dice_coef
 
 logger = setup_logger()
 
@@ -100,48 +100,41 @@ def train():
     
     model = build_unet()
     model.summary()
-    '''
-    model.compile(
-        optimizer="adam",
-        loss=bce_dice_loss,
-        metrics=[dice_coef, iou_score, f2_score_pixel]
-    )
-    '''
-    model.compile(
-        optimizer=tf.keras.optimizers.Adam(1e-4),
-        loss="binary_crossentropy"
-    )
 
     checkpoint = ModelCheckpoint(
-    config.MODEL_SAVE_PATH,
-    monitor="val_loss",
-    save_best_only=True,
+        config.MODEL_SAVE_PATH,
+        monitor="val_loss",
+        save_best_only=True,
+        verbose=1
     )
 
     reduce_lr = ReduceLROnPlateau(
         monitor="val_loss",
         factor=0.5,
-        patience=3
+        patience=2,   # gyorsabb reagálás
+        min_lr=1e-6,
+        verbose=1
     )
 
     early_stop = EarlyStopping(
         monitor="val_loss",
-        patience=8,
+        patience=10,  # kicsit több mozgástér
         restore_best_weights=True,
+        verbose=1
     )
 
     callbacks = [checkpoint, reduce_lr, early_stop]
 
+
     train_dataset = train_dataset.batch(config.BATCH_SIZE)
     val_dataset = val_dataset.batch(config.BATCH_SIZE)
-    '''
-    history = model.fit(
-        train_dataset,
-        validation_data=val_dataset,
-        epochs=config.EPOCHS,
-        callbacks=callbacks,
-        verbose=1
-    )'''
+
+    model.compile(
+    optimizer="adam",
+    loss="binary_crossentropy",
+    metrics=[iou_metric, dice_coef]
+    )
+
     model.fit(train_dataset, 
                 validation_data=val_dataset,
                 epochs=config.EPOCHS,
