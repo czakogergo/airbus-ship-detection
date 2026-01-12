@@ -66,14 +66,14 @@ Before running the container, ensure that:
 
 ```bash
 HOST_DATA_DIR=/absolute/path/to/your/local/data \
-docker compose up --build > run.log 2>&1
+docker compose up --build > log/run.log 2>&1
 ```
 
 #### Windows (PowerShell)
 
 ```powershell
 $env:HOST_DATA_DIR="C:/absolute/path/to/your/local/data"
-docker compose up --build > run.log 2>&1
+docker compose up --build > log/run.log 2>&1
 ```
 
 ---
@@ -97,6 +97,8 @@ The repository is organized as follows:
 │   └── helper modules and reusable components
 ├── documentation/
 │   └── report and assignment-related files
+├── log/
+│   └── run.log
 ├── Dockerfile
 ├── docker-compose.yaml
 ├── requirements.txt
@@ -115,6 +117,9 @@ The repository is organized as follows:
 - **`src/`**
   - Helper modules and reusable components used by the training pipeline
     (e.g. data loading utilities, model-related functions)
+
+- **`log/`**
+  - Includes the running logs that describes the result (output/console) of the docker app.
 
 - **Root directory**
   - `Dockerfile`: Defines the GPU-enabled training environment and
